@@ -1,0 +1,24 @@
+# .NET build
+bin/
+obj/
+
+# Rider / VS
+*.user
+*.rsuser
+*.suo
+
+# Visual Studio cache
+.vs/
+
+# Publish
+publish/
+
+# NuGet
+*.nupkg
+packages/
+
+# Logs
+*.svclog
+
+# ASP.NET
+appsettings.Development.json

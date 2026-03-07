@@ -1,0 +1,48 @@
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using netcore_server.DTOs.Request;
+using netcore_server.DTOs.Response;
+
+namespace netcore_server.Controllers;
+
+using Microsoft.IdentityModel.JsonWebTokens;
+using netcore_server.Services;
+using netcore_server.Utils;
+
+
+[ApiController]
+[Route("auth")]
+public class AuthController : ControllerBase
+{
+    private readonly AuthService _authService;
+
+    public AuthController(AuthService authService)
+    {
+        _authService = authService;
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginReq request)
+    {
+        var result = await _authService.Login(request);
+        var token = JwtUtils.GenerateToken(result.Id, result.Email, result.FullName);
+
+        Response.Cookies.Append("token", token, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddDays(1)
+        });
+
+        return Ok(new ApiResponse<AuthRes>(true, 200, string.Empty, "Login successful", result));
+    }
+
+    [HttpGet("test")]
+    public IActionResult Test()
+    {
+        return Ok(new ApiResponse<string>(true, 200, string.Empty, "Test successful", "Hello World!"));
+    }
+}
+
