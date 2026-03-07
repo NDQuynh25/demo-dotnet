@@ -1,10 +1,23 @@
 import { ShieldCheck, LayoutDashboard, Users, Bell, Settings, LogOut } from 'lucide-react';
+import { authService } from '../apis/AuthApi';
 
 interface SidebarProps {
   isCollapsed: boolean;
 }
 
 export const SideBar: React.FC<SidebarProps> = ({ isCollapsed }) => {
+
+  const handleLogout = async() => {
+    try {
+      const res = await authService.logout();
+      if (res.success) {
+        
+        window.location.href = '/';
+      }
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
   return (
     <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-slate-900 text-slate-300 flex flex-col sticky top-0 h-screen transition-all duration-300 overflow-hidden`}>
       {/* Logo Section */}
@@ -20,7 +33,7 @@ export const SideBar: React.FC<SidebarProps> = ({ isCollapsed }) => {
         {[
           { icon: <LayoutDashboard size={20} />, label: 'Tổng quan', active: false },
           { icon: <Users size={20} />, label: 'Người dùng', active: true },
-          { icon: <Bell size={20} />, label: 'Thông báo', active: false },
+        
           { icon: <Settings size={20} />, label: 'Cài đặt', active: false },
         ].map((item, idx) => (
           <a
@@ -39,7 +52,7 @@ export const SideBar: React.FC<SidebarProps> = ({ isCollapsed }) => {
 
       {/* Logout */}
       <div className="p-4 border-t border-slate-800">
-        <button className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} w-full px-4 py-3 rounded-xl text-red-400 hover:bg-red-400/10 transition-colors`}>
+        <button className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} w-full px-4 py-3 rounded-xl text-red-400 hover:bg-red-400/10 transition-colors`} onClick={handleLogout}>
           <LogOut size={20} className="shrink-0" />
           {!isCollapsed && <span className="font-medium">Đăng xuất</span>}
         </button>

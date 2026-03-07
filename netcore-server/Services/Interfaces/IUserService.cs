@@ -10,4 +10,5 @@ public interface IUserService
     Task<UserRes> UpdateUser(int id, UserReq userReq, ClaimsPrincipal? userAuth = null);
     Task<UserRes> CreateUser(UserReq userReq, ClaimsPrincipal? userAuth = null);
     Task<bool> DeleteUser(int id, ClaimsPrincipal? userAuth = null);
+    Task<Pagination<UserRes>> GetUsers(PageReq pageReq);
 }

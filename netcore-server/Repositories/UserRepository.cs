@@ -60,4 +60,28 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task<Pagination<User>> GetUsers(int page, int limit, string? search)
+    {
+        var query = _context.Users
+            .Where(x => !x.IsDeleted &&
+                (x.FullName.Contains(search ?? "") ||
+                    x.Email.Contains(search ?? "")));
+
+        var totalItems = await query.CountAsync();
+
+        var items = await query
+            .Skip((page - 1) * limit)
+            .Take(limit)
+            .ToListAsync();
+
+        return new Pagination<User>
+        {
+            Elements = items,
+            Page = page,
+            PageSize = limit,
+            TotalItems = totalItems,
+            TotalPages = (int)Math.Ceiling((double)totalItems / limit)
+        };
+    }
+
 }

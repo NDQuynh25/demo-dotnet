@@ -39,6 +39,14 @@ public class AuthController : ControllerBase
         return Ok(new ApiResponse<AuthRes>(true, 200, string.Empty, "Login successful", result));
     }
 
+    // logout
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        Response.Cookies.Delete("token");
+        return Ok(new ApiResponse<string>(true, 200, string.Empty, "Logout successful", string.Empty));
+    }
+
     [HttpGet("test")]
     public IActionResult Test()
     {

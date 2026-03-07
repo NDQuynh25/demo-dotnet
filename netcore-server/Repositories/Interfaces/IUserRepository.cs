@@ -4,6 +4,7 @@ namespace netcore_server.Repositories;
 
 public interface IUserRepository
 {
+    Task<Pagination<User>> GetUsers(int page, int limit, string? search);
     Task<User?>  GetByEmail(string email);
 
     Task<User?> GetById(int id);

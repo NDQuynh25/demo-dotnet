@@ -1,7 +1,7 @@
 import type { Auth } from '../types/auth';
 import ApiService from './ApiService';
 
-// Khởi tạo instance cho module auth
+
 const authApi = new ApiService('auth') as any;
 
 export const authService = {

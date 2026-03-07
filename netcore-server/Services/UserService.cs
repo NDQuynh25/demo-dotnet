@@ -94,15 +94,43 @@ public class UserService : IUserService
         }
     }
     
-    public Task<bool> DeleteUser(int id, ClaimsPrincipal? userAuth = null) {
+    public async Task<bool> DeleteUser(int id, ClaimsPrincipal? userAuth = null) {
         try {
             var user = _userRepository.GetById(id).Result;
             if (user == null)
                 throw new ArgumentException("User not found");
             
-            _userRepository.Delete(id);
+            await _userRepository.Delete(id);
             
-            return Task.FromResult(true);
+            return true;
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public async Task<Pagination<UserRes>> GetUsers(PageReq pageReq) {
+        try {
+            var users = await _userRepository.GetUsers(
+                pageReq.Page,
+                pageReq.Limit,
+                pageReq.Search
+            );
+            return new Pagination<UserRes>
+            {
+                Elements = users.Elements.Select(u => new UserRes(
+                    u.Id,
+                    u.Email,
+                    u.FullName ?? string.Empty,
+                    u.DateOfBirth?.ToString("yyyy-MM-dd") ?? string.Empty,
+                    u.PhoneNumber ?? string.Empty,
+                    u.Address ?? string.Empty
+                )).ToList(),
+                Page = pageReq.Page,
+                PageSize = pageReq.Limit,
+                TotalItems = users.TotalItems,
+                TotalPages = users.TotalPages
+            };
+              
         } catch (Exception ex) {
             throw ex;
         }

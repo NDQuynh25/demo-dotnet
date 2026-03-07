@@ -94,7 +94,7 @@ const LoginPage: React.FC = () => {
 
           <div className="mt-8 text-center">
              <button className="text-sm text-slate-400 hover:text-blue-600 transition-colors font-medium">
-              Quên mật khẩu?
+              {/* Quên mật khẩu? */}
             </button>
           </div>
         </div>
