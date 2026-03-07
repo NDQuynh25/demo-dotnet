@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { authService } from '../../apis/AuthApi';
+import { toast } from 'react-toastify';
 
 
 const loginSchema = z.object({
@@ -30,9 +31,16 @@ const LoginPage: React.FC = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      await authService.login(data);
-      navigate('/users');
+      const res = await authService.login(data);
+      if (res.success) {
+        navigate('/users');
+        
+      } else {
+    
+        console.error("Đăng nhập thất bại", res.message);
+      }
     } catch (error) {
+      toast.error("Đăng nhập thất bại");
       console.error("Đăng nhập thất bại", error);
       
     }

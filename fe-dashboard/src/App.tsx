@@ -4,6 +4,10 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layouts/MainLayout';
 import UserPage from './pages/user/UserPage';
 import LoginPage from './pages/auth/LoginPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const App: React.FC = () => {
   return (
@@ -23,8 +27,9 @@ const App: React.FC = () => {
         </Route>
 
         
-        <Route path="*" element={<Navigate to="/auth/login" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} style={{ zIndex: 99999 }}/>
     </BrowserRouter>
   );
 };

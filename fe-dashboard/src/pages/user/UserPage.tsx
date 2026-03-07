@@ -6,6 +6,7 @@ import {  AlertTriangle } from 'lucide-react';
 import { userService } from '../../apis/UserApi';
 import { Pagination } from '../../components/common/Pagination';
 import { DataTable, type Column } from '../../components/common/DataTable';
+import { toast } from 'react-toastify';
 
 export interface User {
   id: number;
@@ -96,8 +97,7 @@ export default function UserPage() {
           <button onClick={() => { setSelectedUser(u); setIsFormOpen(true); }} className="p-2.5 bg-slate-50 text-slate-400 rounded-xl hover:bg-blue-600 hover:text-white transition-all"><Edit size={18} /></button>
           <DeleteConfirm 
             onConfirm={async () => {
-              await userService.deleteUser(u.id);
-              await fetchUsers(pagination.page, searchTerm);
+              await handleDeleteConfirm(u.id);
             }} 
           />
         </div>
@@ -106,7 +106,12 @@ export default function UserPage() {
   ];
   const handleDeleteConfirm = async (id: number) => {
     try {
-      await userService.deleteUser(id);
+      const res = await userService.deleteUser(id);
+      if (res.success) {
+        toast.success("Xóa người dùng thành công");
+      } else {
+        toast.error("Có lỗi xảy ra vui lòng thử lại!");
+      }
       await fetchUsers(pagination.page, searchTerm);
     } catch (error) {
       console.error('Error deleting user:', error);

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { X, User, Mail, Calendar, Phone, MapPin } from 'lucide-react';
 import { userService } from '../../../apis/UserApi';
+import { toast } from 'react-toastify';
 
 // 1. Schema chuẩn theo Type của bạn
 const userSchema = z.object({
@@ -43,9 +44,19 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData, fetchUsers, onC
     console.log(data);
     try {
       if(isEdit && initialData?.id) {
-        await userService.updateUser(initialData.id, data);
+        const res = await userService.updateUser(initialData.id, data);
+        if (res.success) {
+          toast.success("Cập nhật người dùng thành công");
+        } else {
+          toast.error("Có lỗi xảy ra vui lòng thử lại!");
+        }
       } else {
-        await userService.createUser(data);
+        const res = await userService.createUser(data);
+        if (res.success) {
+          toast.success("Thêm người dùng thành công");
+        } else {
+          toast.error("Có lỗi xảy ra vui lòng thử lại!");
+        }
       }
     } catch (error) {
       console.error('Error submitting form:', error);

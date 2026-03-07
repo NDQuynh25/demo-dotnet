@@ -4,9 +4,13 @@ import './index.css'
 import App from './App.tsx'
 import { Loading } from './components/common/Loading.tsx'
 
+
+
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
     <Loading />
+  
   </StrictMode>,
 )
