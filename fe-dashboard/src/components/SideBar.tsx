@@ -11,7 +11,7 @@ export const SideBar: React.FC<SidebarProps> = ({ isCollapsed }) => {
     try {
       const res = await authService.logout();
       if (res.success) {
-        
+        localStorage.removeItem('user');
         window.location.href = '/';
       }
     } catch (error) {

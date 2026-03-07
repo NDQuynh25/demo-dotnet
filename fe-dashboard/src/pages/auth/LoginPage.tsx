@@ -34,6 +34,7 @@ const LoginPage: React.FC = () => {
       const res = await authService.login(data);
       if (res.success) {
         navigate('/users');
+        localStorage.setItem('user', JSON.stringify(res.data));
         
       } else {
     

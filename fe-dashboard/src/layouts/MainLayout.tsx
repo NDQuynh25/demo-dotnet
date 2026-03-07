@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { SideBar } from '../components/SideBar';
 import { Menu, X, Bell, UserCircle } from 'lucide-react';
 
 const MainLayout: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const isAuthenticated = !!localStorage.getItem('user');
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">

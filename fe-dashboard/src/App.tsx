@@ -9,14 +9,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
+
 const App: React.FC = () => {
+  const isAuthenticated = localStorage.getItem('user') !== null;
   return (
     <BrowserRouter>
       <Routes>
         
         <Route path="/" >
-          <Route path="" element={<LoginPage />} />
-         
+          <Route path="" element={isAuthenticated ? <Navigate to="/users" /> : <LoginPage />} />
         </Route>
 
         

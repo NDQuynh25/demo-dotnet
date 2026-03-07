@@ -49,7 +49,7 @@ public static class AuthMiddleware
                     return Task.CompletedTask;
                 },
 
-                // Sau khi token verify thành công
+             
                 OnTokenValidated = context =>
                 {
                     var userId = context.Principal?.FindFirst("id")?.Value;

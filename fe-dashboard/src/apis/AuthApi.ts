@@ -14,5 +14,10 @@ export const authService = {
 
   logout: async () => {
     return await authApi.post('logout');
+  },
+  
+  me: async () => {
+
+    return await authApi.get('me');
   }
 };

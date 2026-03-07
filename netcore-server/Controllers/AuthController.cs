@@ -6,6 +6,7 @@ using netcore_server.DTOs.Response;
 
 namespace netcore_server.Controllers;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.JsonWebTokens;
 using netcore_server.Services;
 using netcore_server.Utils;
@@ -45,6 +46,19 @@ public class AuthController : ControllerBase
     {
         Response.Cookies.Delete("token");
         return Ok(new ApiResponse<string>(true, 200, string.Empty, "Logout successful", string.Empty));
+    }
+
+    // me
+    [Authorize]
+    [HttpGet("me")]
+    public IActionResult Me()
+    {
+        AuthRes authRes = new AuthRes(
+            int.Parse(User.FindFirst("Id")?.Value ?? string.Empty),
+            User.FindFirst("Email")?.Value ?? string.Empty,
+            User.FindFirst("FullName")?.Value ?? string.Empty
+        );
+        return Ok(new ApiResponse<AuthRes>(true, 200, string.Empty, "Get user id successful", authRes));
     }
 
     [HttpGet("test")]
