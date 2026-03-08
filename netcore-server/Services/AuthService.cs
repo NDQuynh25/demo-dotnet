@@ -39,8 +39,8 @@ public class AuthService : IAuthService {
                 user.FullName ?? string.Empty
             );
             
-        } catch (Exception ex) {
-            throw ex;
+        } catch (Exception) {
+            throw;
         }
     }
 }

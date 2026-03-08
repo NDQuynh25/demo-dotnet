@@ -14,38 +14,39 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public Task<UserRes> GetUserById(int id) {
+    public async Task<UserRes> GetUserById(int id) {
         try {
-            var user = _userRepository.GetById(id).Result;
+            var user = await _userRepository.GetById(id);
             if (user == null)
                 throw new AppException("User not found", 404);
             
-            return Task.FromResult(new UserRes(
+            return new UserRes(
                 user.Id,
                 user.Email,
                 user.FullName ?? string.Empty,
                 user.DateOfBirth?.ToString("yyyy-MM-dd") ?? string.Empty,
                 user.PhoneNumber ?? string.Empty,
                 user.Address ?? string.Empty
-            ));
-        } catch (Exception ex) {
-            throw ex;
+            );
+        } catch (Exception) {
+            throw;
         }
     }
     
     public async Task<UserRes> UpdateUser(int id, UserReq userReq, ClaimsPrincipal? userAuth = null) {
         try {
-            var userId = int.Parse(userAuth?.FindFirst("Id")?.Value ?? null);
+            var userIdStr = userAuth?.FindFirst("id")?.Value;
+            var userId = string.IsNullOrEmpty(userIdStr) ? 0 : int.Parse(userIdStr);
 
-            var user = _userRepository.GetById(id).Result;
+            var user = await _userRepository.GetById(id);
             if (user == null)
                 throw new AppException("User not found", 404);
             
             user.FullName = userReq.FullName;
-            user.DateOfBirth = string.IsNullOrEmpty(userReq.DateOfBirth) ? null : DateTime.Parse(userReq.DateOfBirth);
+            user.DateOfBirth = string.IsNullOrEmpty(userReq.DateOfBirth) ? null : DateTime.SpecifyKind(DateTime.Parse(userReq.DateOfBirth), DateTimeKind.Utc);
             user.PhoneNumber = userReq.PhoneNumber;
             user.Address = userReq.Address;
-            user.UpdatedAt = DateTime.Now;
+            user.UpdatedAt = DateTime.UtcNow;
             user.UpdatedBy = userId;
             
             await _userRepository.Update(user);
@@ -58,29 +59,30 @@ public class UserService : IUserService
                 user.PhoneNumber ?? string.Empty,
                 user.Address ?? string.Empty
             );
-        } catch (Exception ex) {
-            throw ex;
+        } catch (Exception) {
+            throw;
         }
     }
 
     public async Task<UserRes> CreateUser(UserReq userReq, ClaimsPrincipal? userAuth = null) {
-        var userId = int.Parse(userAuth?.FindFirst("Id")?.Value ?? null);
+        var userIdStr = userAuth?.FindFirst("id")?.Value;
+        var userId = string.IsNullOrEmpty(userIdStr) ? 0 : int.Parse(userIdStr);
         
         try {
-            if (_userRepository.GetByEmail(userReq.Email).Result != null)
+            var existingUser = await _userRepository.GetByEmail(userReq.Email);
+            if (existingUser != null)
                 throw new AppException("Email already exists", 400);
 
             var user = new User {
                 Email = userReq.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
                 FullName = userReq.FullName,
-                DateOfBirth = string.IsNullOrEmpty(userReq.DateOfBirth) ? null : DateTime.Parse(userReq.DateOfBirth),
+                DateOfBirth = string.IsNullOrEmpty(userReq.DateOfBirth) ? null : DateTime.SpecifyKind(DateTime.Parse(userReq.DateOfBirth), DateTimeKind.Utc),
                 PhoneNumber = userReq.PhoneNumber,
                 Address = userReq.Address,
                 Role = RoleConstants.USER,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = userId,
-                // UpdatedBy = id,
             };
            
             
@@ -95,22 +97,22 @@ public class UserService : IUserService
                 user.PhoneNumber ?? string.Empty,
                 user.Address ?? string.Empty
             );
-        } catch (Exception ex) {
-            throw ex;
+        } catch (Exception) {
+            throw;
         }
     }
     
     public async Task<bool> DeleteUser(int id, ClaimsPrincipal? userAuth = null) {
         try {
-            var user = _userRepository.GetById(id).Result;
+            var user = await _userRepository.GetById(id);
             if (user == null)
                 throw new AppException("User not found", 404);
             
             await _userRepository.Delete(id);
             
             return true;
-        } catch (Exception ex) {
-            throw ex;
+        } catch (Exception) {
+            throw;
         }
     }
 
@@ -137,8 +139,8 @@ public class UserService : IUserService
                 TotalPages = users.TotalPages
             };
               
-        } catch (Exception ex) {
-            throw ex;
+        } catch (Exception) {
+            throw;
         }
     }
 }

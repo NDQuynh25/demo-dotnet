@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using netcore_server.Database;
 using netcore_server.Entities;
+using netcore_server.Utils.Constants;
 
 namespace netcore_server.Repositories;
 
@@ -63,7 +64,7 @@ public class UserRepository : IUserRepository
     public async Task<Pagination<User>> GetUsers(int page, int limit, string? search)
     {
         var query = _context.Users
-            .Where(x => !x.IsDeleted &&
+            .Where(x => !x.IsDeleted && x.Role == RoleConstants.USER &&
                 (x.FullName.Contains(search ?? "") ||
                     x.Email.Contains(search ?? "")));
 
