@@ -76,7 +76,7 @@ public class UserService : IUserService
                 DateOfBirth = string.IsNullOrEmpty(userReq.DateOfBirth) ? null : DateTime.Parse(userReq.DateOfBirth),
                 PhoneNumber = userReq.PhoneNumber,
                 Address = userReq.Address,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
                 CreatedBy = userId,
                 // UpdatedBy = id,
             };

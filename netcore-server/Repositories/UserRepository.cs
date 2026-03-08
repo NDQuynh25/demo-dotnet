@@ -54,7 +54,7 @@ public class UserRepository : IUserRepository
         }
 
         user.IsDeleted = true;
-        user.UpdatedAt = DateTime.Now;
+        user.UpdatedAt = DateTime.UtcNow;
         _context.Users.Update(user);
 
         await _context.SaveChangesAsync();

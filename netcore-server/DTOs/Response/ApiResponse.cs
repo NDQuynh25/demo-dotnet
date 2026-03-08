@@ -16,7 +16,7 @@ public class ApiResponse<T>
         Error = error ?? string.Empty;
         Message = message ?? string.Empty;
         Data = data ?? default!;
-        Timestamp = DateTime.Now;
+        Timestamp = DateTime.UtcNow;
     }
     
     public bool Success { get; set; } = true;
@@ -29,5 +29,5 @@ public class ApiResponse<T>
 
     public T Data { get; set; } = default!;
 
-    public DateTime Timestamp { get; set; } = DateTime.Now;
+    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 }
