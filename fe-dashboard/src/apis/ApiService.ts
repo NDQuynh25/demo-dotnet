@@ -11,7 +11,7 @@ import { useLoadingStore } from '../store/useLoadingStore';
  */
 const CONFIG = {
   ssl: false, // Set to true if using HTTPS
-  api_url: import.meta.env.API_URL || 'localhost:5210/api/v1', 
+  api_url: import.meta.env.API_URL || 'https://demo-dotnet.onrender.com/api/v1', 
 };
 
 const HTTP_METHODS: Method[] = ['get', 'post', 'put', 'delete', 'patch'];
