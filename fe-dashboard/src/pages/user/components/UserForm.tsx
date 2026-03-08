@@ -41,24 +41,26 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData, fetchUsers, onC
   });
 
   const handleSubmitForm = async (data: UserFormValues) => {
-    console.log(data);
+
+    let res: any = null;
     try {
       if(isEdit && initialData?.id) {
-        const res = await userService.updateUser(initialData.id, data);
+        res = await userService.updateUser(initialData.id, data);
         if (res.success) {
           toast.success("Cập nhật người dùng thành công");
         } else {
-          toast.error("Có lỗi xảy ra vui lòng thử lại!");
+          toast.error(res.message || "Có lỗi xảy ra vui lòng thử lại!");
         }
       } else {
         const res = await userService.createUser(data);
         if (res.success) {
           toast.success("Thêm người dùng thành công");
         } else {
-          toast.error("Có lỗi xảy ra vui lòng thử lại!");
+          toast.error(res.message || "Có lỗi xảy ra vui lòng thử lại!");
         }
       }
     } catch (error) {
+      toast.error(res.message || "Có lỗi xảy ra vui lòng thử lại!");
       console.error('Error submitting form:', error);
     } finally {
       onClose();
