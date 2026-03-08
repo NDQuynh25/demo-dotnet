@@ -40,7 +40,7 @@ public class AuthService : IAuthService {
             );
             
         } catch (Exception ex) {
-            throw ex;
+            throw new AppException(ex.Message, 500);
         }
     }
 }

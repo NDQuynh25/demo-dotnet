@@ -2,6 +2,7 @@ using System.Security.Claims;
 using netcore_server.DTOs.Request;
 using netcore_server.DTOs.Response;
 using netcore_server.Entities;
+using netcore_server.Exceptions;
 using netcore_server.Repositories;
 
 public class UserService : IUserService
@@ -16,7 +17,7 @@ public class UserService : IUserService
         try {
             var user = _userRepository.GetById(id).Result;
             if (user == null)
-                throw new ArgumentException("User not found");
+                throw new AppException("User not found", 404);
             
             return Task.FromResult(new UserRes(
                 user.Id,
@@ -27,7 +28,7 @@ public class UserService : IUserService
                 user.Address ?? string.Empty
             ));
         } catch (Exception ex) {
-            throw ex;
+            throw new AppException(ex.Message, 500);
         }
     }
     
@@ -37,7 +38,7 @@ public class UserService : IUserService
 
             var user = _userRepository.GetById(id).Result;
             if (user == null)
-                throw new ArgumentException("User not found");
+                throw new AppException("User not found", 404);
             
             user.FullName = userReq.FullName;
             user.DateOfBirth = string.IsNullOrEmpty(userReq.DateOfBirth) ? null : DateTime.Parse(userReq.DateOfBirth);
@@ -57,7 +58,7 @@ public class UserService : IUserService
                 user.Address ?? string.Empty
             );
         } catch (Exception ex) {
-            throw ex;
+            throw new AppException(ex.Message, 500);
         }
     }
 
@@ -65,6 +66,9 @@ public class UserService : IUserService
         var userId = int.Parse(userAuth?.FindFirst("Id")?.Value ?? null);
         
         try {
+            if (_userRepository.GetByEmail(userReq.Email).Result != null)
+                throw new AppException("Email already exists", 400);
+
             var user = new User {
                 Email = userReq.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("12345678"),
@@ -90,7 +94,7 @@ public class UserService : IUserService
                 user.Address ?? string.Empty
             );
         } catch (Exception ex) {
-            throw ex;
+            throw new AppException(ex.Message, 500);
         }
     }
     
@@ -98,13 +102,13 @@ public class UserService : IUserService
         try {
             var user = _userRepository.GetById(id).Result;
             if (user == null)
-                throw new ArgumentException("User not found");
+                throw new AppException("User not found", 404);
             
             await _userRepository.Delete(id);
             
             return true;
         } catch (Exception ex) {
-            throw ex;
+            throw new AppException(ex.Message, 500);
         }
     }
 
@@ -132,7 +136,7 @@ public class UserService : IUserService
             };
               
         } catch (Exception ex) {
-            throw ex;
+            throw new AppException(ex.Message, 500);
         }
     }
 }
