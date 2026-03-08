@@ -10,6 +10,6 @@
 body {
   margin: 0;
   min-height: 100vh;
-  /* Bỏ flex và place-items center của Vite để tránh làm lệch giao diện Dashboard */
-  background-color: #f8fafc; /* Màu nền xám nhạt cho Dashboard chuyên nghiệp */
+ 
+  background-color: #f8fafc;
 }
