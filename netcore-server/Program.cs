@@ -41,7 +41,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFE", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // port vite
+        policy.WithOrigins(builder.Configuration.GetValue<string>("FrontendUrl") ?? "http://localhost:5173") // port vite
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
