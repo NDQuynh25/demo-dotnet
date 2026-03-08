@@ -1,5 +1,7 @@
 ## LINK TEST:
 - https://demo-dotnet-1.onrender.com/users
+- admin@gmail.com
+- 123456
 ## Yêu cầu hệ thống
 
 - **Node.js** (phiên bản 18+)
