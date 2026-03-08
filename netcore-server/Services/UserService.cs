@@ -29,7 +29,7 @@ public class UserService : IUserService
                 user.Address ?? string.Empty
             ));
         } catch (Exception ex) {
-            throw new AppException(ex.Message, 500);
+            throw ex;
         }
     }
     
@@ -59,7 +59,7 @@ public class UserService : IUserService
                 user.Address ?? string.Empty
             );
         } catch (Exception ex) {
-            throw new AppException(ex.Message, 500);
+            throw ex;
         }
     }
 
@@ -96,7 +96,7 @@ public class UserService : IUserService
                 user.Address ?? string.Empty
             );
         } catch (Exception ex) {
-            throw new AppException(ex.Message, 500);
+            throw ex;
         }
     }
     
@@ -110,7 +110,7 @@ public class UserService : IUserService
             
             return true;
         } catch (Exception ex) {
-            throw new AppException(ex.Message, 500);
+            throw ex;
         }
     }
 
@@ -138,7 +138,7 @@ public class UserService : IUserService
             };
               
         } catch (Exception ex) {
-            throw new AppException(ex.Message, 500);
+            throw ex;
         }
     }
 }

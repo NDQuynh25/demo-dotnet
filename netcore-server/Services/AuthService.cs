@@ -30,7 +30,7 @@ public class AuthService : IAuthService {
             if (!BCrypt.Net.BCrypt.Verify(loginReq.Password, user.PasswordHash))
                 throw new AppException("Email or password is incorrect", 401);
             
-            if (user.Role != RoleConstants.USER)
+            if (user.Role != RoleConstants.ADMIN)
                 throw new AppException("You are not authorized to access this resource", 403);
 
             return new AuthRes(
@@ -40,7 +40,7 @@ public class AuthService : IAuthService {
             );
             
         } catch (Exception ex) {
-            throw new AppException(ex.Message, 500);
+            throw ex;
         }
     }
 }
