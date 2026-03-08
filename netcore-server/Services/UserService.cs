@@ -4,6 +4,7 @@ using netcore_server.DTOs.Response;
 using netcore_server.Entities;
 using netcore_server.Exceptions;
 using netcore_server.Repositories;
+using netcore_server.Utils.Constants;
 
 public class UserService : IUserService
 {
@@ -76,6 +77,7 @@ public class UserService : IUserService
                 DateOfBirth = string.IsNullOrEmpty(userReq.DateOfBirth) ? null : DateTime.Parse(userReq.DateOfBirth),
                 PhoneNumber = userReq.PhoneNumber,
                 Address = userReq.Address,
+                Role = RoleConstants.USER,
                 CreatedAt = DateTime.UtcNow,
                 CreatedBy = userId,
                 // UpdatedBy = id,

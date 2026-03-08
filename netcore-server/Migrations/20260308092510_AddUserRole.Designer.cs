@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using netcore_server.Database;
@@ -11,9 +12,11 @@ using netcore_server.Database;
 namespace netcore_server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260308092510_AddUserRole")]
+    partial class AddUserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,13 +83,13 @@ namespace netcore_server.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 3, 8, 9, 27, 26, 608, DateTimeKind.Utc).AddTicks(9551),
+                            CreatedAt = new DateTime(2026, 3, 8, 9, 25, 9, 814, DateTimeKind.Utc).AddTicks(5048),
                             Email = "admin@gmail.com",
                             FullName = "Admin",
                             IsDeleted = false,
-                            PasswordHash = "$2a$11$E3uPNc.F8v1Ir/O0MLjVIuiqTzt.bc2cX5AisAHMFhZpzuWkz2ReS",
+                            PasswordHash = "$2a$11$iyH8/cGggdn5lL5Tb51Oge7NgfKpQ1xhDDniYJJ84X1T1cZNw9Nfu",
                             Role = "USER",
-                            UpdatedAt = new DateTime(2026, 3, 8, 9, 27, 26, 608, DateTimeKind.Utc).AddTicks(9553)
+                            UpdatedAt = new DateTime(2026, 3, 8, 9, 25, 9, 814, DateTimeKind.Utc).AddTicks(5050)
                         });
                 });
 #pragma warning restore 612, 618

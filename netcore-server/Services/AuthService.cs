@@ -5,6 +5,7 @@ using netcore_server.DTOs.Request;
 using netcore_server.DTOs.Response;
 using netcore_server.Exceptions;
 using netcore_server.Repositories;
+using netcore_server.Utils.Constants;
 
 namespace netcore_server.Services;
 
@@ -24,14 +25,13 @@ public class AuthService : IAuthService {
 
             var user = await _userRepository.GetByEmail(loginReq.Email);
             if (user == null)
-                throw new AppException("User not found", 404);
+                throw new AppException("Email or password is incorrect", 401);
             
             if (!BCrypt.Net.BCrypt.Verify(loginReq.Password, user.PasswordHash))
-                throw new AppException("Incorrect password", 400);
-
-            Console.WriteLine($"User ID: {user.Id}");
-            Console.WriteLine($"Email: {user.Email}");
-            Console.WriteLine($"Full Name: {user.FullName}");
+                throw new AppException("Email or password is incorrect", 401);
+            
+            if (user.Role != RoleConstants.USER)
+                throw new AppException("You are not authorized to access this resource", 403);
 
             return new AuthRes(
                 user.Id,

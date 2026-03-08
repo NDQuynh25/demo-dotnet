@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using netcore_server.Utils.Constants;
 namespace netcore_server.Entities;
 
 
@@ -11,6 +12,8 @@ public class User
     public string Email { get; set; } = string.Empty;
 
     public string PasswordHash { get; set; } = string.Empty;
+
+    public string Role { get; set; } = RoleConstants.USER;
 
     public string? FullName { get; set; }
 
