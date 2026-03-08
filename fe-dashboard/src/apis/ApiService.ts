@@ -5,10 +5,7 @@ import momentTz from 'moment-timezone';
 import { useLoadingStore } from '../store/useLoadingStore';
 
 
-/**
- * Giả định các hằng số cấu hình. 
- * Trong thực tế bạn nên import từ src/core/configs/config.ts
- */
+
 const CONFIG = {
   ssl: false, // Set to true if using HTTPS
   api_url: import.meta.env.API_URL || 'https://demo-dotnet.onrender.com/api/v1', 
