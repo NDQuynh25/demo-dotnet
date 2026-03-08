@@ -13,7 +13,7 @@ WORKDIR /app
 
 COPY --from=build /app/publish .
 
-ENV ASPNETCORE_URLS=http://+:10000
-EXPOSE 10000
+ENV ASPNETCORE_URLS=http://+:5210
+EXPOSE 5210
 
 ENTRYPOINT ["dotnet", "netcore-server.dll"]

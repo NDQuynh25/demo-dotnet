@@ -13,7 +13,8 @@ using netcore_server.Middlewares;
 var builder = WebApplication.CreateBuilder(args);
 
 // export port
-builder.WebHost.UseUrls("http://localhost:5210");
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5210";
+builder.WebHost.UseUrls($"http://*:{port}");
 
 // Controllers
 builder.Services
