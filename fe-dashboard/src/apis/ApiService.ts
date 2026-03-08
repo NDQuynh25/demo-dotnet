@@ -5,10 +5,7 @@ import momentTz from 'moment-timezone';
 import { useLoadingStore } from '../store/useLoadingStore';
 
 
-/**
- * Giả định các hằng số cấu hình. 
- * Trong thực tế bạn nên import từ src/core/configs/config.ts
- */
+
 const CONFIG = {
   ssl: false, // Set to true if using HTTPS
   api_url: import.meta.env.API_URL || 'localhost:5210/api/v1', 
@@ -53,7 +50,7 @@ class ApiService {
     responseType: ResponseType | null = null
   ) {
     useLoadingStore.getState().show();
-    console.log('callApi', 'okokkokokok');
+   
     // Save tokens in cookies with httponly.
     const config: AxiosRequestConfig = {
       url: `${this.url}/${path}`,

@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
+using netcore_server.Utils.Constants;
+
 namespace netcore_server.Entities;
 
 
@@ -12,6 +14,8 @@ public class User
 
     public string PasswordHash { get; set; } = string.Empty;
 
+    public string Role { get; set; } = RoleConstants.USER;
+
     public string? FullName { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
@@ -21,6 +25,8 @@ public class User
     public string? Address { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    
 
     public DateTime? UpdatedAt { get; set; }
 
