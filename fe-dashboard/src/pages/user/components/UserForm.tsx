@@ -52,7 +52,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData, fetchUsers, onC
           toast.error(res.message || "Có lỗi xảy ra vui lòng thử lại!");
         }
       } else {
-        const res = await userService.createUser(data);
+        res = await userService.createUser(data);
         if (res.success) {
           toast.success("Thêm người dùng thành công");
         } else {
