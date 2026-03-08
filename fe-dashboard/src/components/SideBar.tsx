@@ -1,4 +1,4 @@
-import { ShieldCheck, LayoutDashboard, Users, Bell, Settings, LogOut } from 'lucide-react';
+import { ShieldCheck, LayoutDashboard, Users, Settings, LogOut } from 'lucide-react';
 import { authService } from '../apis/AuthApi';
 
 interface SidebarProps {

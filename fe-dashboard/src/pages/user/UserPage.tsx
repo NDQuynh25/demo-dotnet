@@ -181,7 +181,7 @@ interface DeleteConfirmProps {
   title?: string;
 }
 
-export const DeleteConfirm: React.FC<DeleteConfirmProps> = ({ onConfirm, title = "Xác nhận xóa?" }) => {
+export const DeleteConfirm: React.FC<DeleteConfirmProps> = ({ onConfirm}) => {
   const [isOpen, setIsOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
 
